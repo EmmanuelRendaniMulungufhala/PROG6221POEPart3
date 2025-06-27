@@ -1,0 +1,123 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cybersecurity Assistant"
+        Width="1024" Height="768"
+        MinWidth="1024" MinHeight="768">
+    <Grid Margin="0,0,0,-6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER WITH LOGO -->
+        <Border Grid.Row="0" Background="#FF222222" Padding="10">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="CYBERSECURITY AWARENESS ASSISTANT"
+                           FontFamily="Consolas"
+                           Foreground="LightGreen"
+                           FontSize="18"
+                           TextAlignment="Center"
+                           Margin="0,0,0,8"/>
+
+                <!-- Logo below the title -->
+                <Viewbox Height="60">
+                    <Canvas Width="100" Height="100">
+                        <!-- Shield -->
+                        <Path Fill="#1A1A1A" Stroke="#00FF99" StrokeThickness="2"
+                              Data="M50,10 L90,30 L80,90 L50,100 L20,90 L10,30 Z" />
+
+                        <!-- Lock Body -->
+                        <Rectangle Fill="#00FF99" Width="28" Height="28"
+                                   Canvas.Left="36" Canvas.Top="44" RadiusX="4" RadiusY="4"/>
+
+                        <!-- Lock Shackle -->
+                        <Path Stroke="#1A1A1A" StrokeThickness="4"
+                              Data="M40,44 C40,32 60,32 60,44" />
+
+                        <!-- Keyhole -->
+                        <Ellipse Fill="#1A1A1A" Width="6" Height="6"
+                                 Canvas.Left="47" Canvas.Top="55"/>
+                    </Canvas>
+                </Viewbox>
+            </StackPanel>
+        </Border>
+
+        <!-- TAB CONTROL -->
+        <TabControl Grid.Row="1" Margin="10,10,10,10">
+            <!-- TASK MANAGER TAB -->
+            <TabItem Header="🗓️ Task Manager">
+                <StackPanel Margin="10">
+                    <Label Content="Task Title:" />
+                    <TextBox x:Name="TaskInputBox" MinHeight="30" Margin="0,5" Text="Task Title" />
+                    <Label Content="Task Description:" />
+                    <TextBox x:Name="TaskDescriptionBox" MinHeight="60" AcceptsReturn="True" TextWrapping="Wrap" Margin="0,5" Text="Task Description" />
+                    <Label Content="Reminder Date (optional):" />
+                    <TextBox x:Name="ReminderInputBox" MinHeight="30" Margin="0,5" Text="yyyy-MM-dd" />
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Button Content="Add Task" Width="100" Click="AddTaskButton_Click" />
+                        <Button Content="Remove Task" Width="100" Margin="10,0,0,0" Click="RemoveTaskButton_Click" />
+                    </StackPanel>
+                    <ListBox x:Name="TaskList" MinHeight="250" Margin="0,5" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- CHAT TAB -->
+            <TabItem Header="💬 Chat Assistant">
+                <StackPanel Margin="10">
+                    <TextBlock Text="💡 You can ask about:\n- Password safety\n- Phishing\n- Two-factor authentication\n- Malware\n- Public Wi-Fi security\n\nType your question below."
+                               Foreground="DarkGreen"
+                               FontWeight="Bold"
+                               Margin="0,5"/>
+                    <TextBox x:Name="ChatInputBox" MinHeight="30" Margin="0,5" Text="Enter your Name here" />
+                    <Button Content="Send" Width="80" Click="ChatSendButton_Click" />
+                    <Label x:Name="ChatResponseLabel" MinHeight="60" Margin="0,5" Background="LightGray" Padding="5" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- QUIZ TAB -->
+            <TabItem Header="❓ Quiz">
+                <StackPanel Margin="10,10,20,10">
+                    <TextBlock x:Name="QuestionLabel" FontWeight="Bold" FontSize="16" TextWrapping="Wrap" MinHeight="40" Margin="0,5" />
+                    <ListBox x:Name="OptionsList" MinHeight="120" Margin="0,5" />
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Button x:Name="SubmitAnswerButton" Content="Submit Answer" Width="120" Click="SubmitAnswerButton_Click" />
+                        <Button x:Name="NextQuestionButton" Content="Next Question" Width="120" Margin="10,0,0,0" Click="NextQuestionButton_Click" Visibility="Collapsed" />
+                        <Button x:Name="RestartQuizButton" Content="Restart Quiz" Width="120" Margin="10,0,0,0" Click="RestartQuizButton_Click" />
+                    </StackPanel>
+                    <Label x:Name="ResultLabel" FontWeight="Bold" FontSize="14" Margin="0,10,0,0"/>
+                    <Label x:Name="CorrectAnswerLabel" FontSize="14" Margin="0,5" Foreground="DarkGreen"/>
+                    <Label x:Name="ExplanationLabel" FontSize="13" Margin="0,5" Foreground="DarkSlateBlue"/>
+                    <ProgressBar x:Name="QuizProgressBar" Height="20" Minimum="0" Maximum="100" Margin="0,10,0,0"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- ACTIVITY LOG TAB -->
+            <TabItem Header="📋 Activity Log">
+                <ListBox x:Name="ActivityLogList" MinHeight="300" Margin="10">
+                    <ListBox.Resources>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="5" />
+                            <Setter Property="Margin" Value="2" />
+                            <Setter Property="Background" Value="{x:Null}" />
+                            <Style.Triggers>
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                    <Setter Property="Background" Value="#FFEEF3FA" />
+                                </Trigger>
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                    <Setter Property="Background" Value="#FFFFFFFF" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Resources>
+                </ListBox>
+            </TabItem>
+        </TabControl>
+
+        <!-- STATUS BAR -->
+        <StatusBar Grid.Row="2" Background="#FF222222" Foreground="LightGreen" Padding="5">
+            <TextBlock x:Name="StatusBarText" Text="Status: Ready" VerticalAlignment="Center" />
+        </StatusBar>
+    </Grid>
+</Window>
